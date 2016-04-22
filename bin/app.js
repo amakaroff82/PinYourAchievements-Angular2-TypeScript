@@ -68,9 +68,9 @@
             response.header("Access-Control-Allow-Origin", config.accessControlAllowOrigin);
             next();
         }, express.static(publicDirectory));
+        app.use(require('connect-livereload')());
 
         require("./controllers")(app);
-        require("./routes")(app, io, config);
 
         app.use(function (request, response, next) {
 

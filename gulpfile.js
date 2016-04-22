@@ -10,7 +10,7 @@ var express = require('gulp-express');
 
 var serverOptions = {
 	root: 'public',
-	port: 8000,
+	port: 8084,
 	livereload: true,
 };
 
@@ -107,7 +107,9 @@ gulp.task(tasks.watch, function () {
 gulp.task(tasks.startWebServer, function () {
 	//connect.server(serverOptions);
 	return express.run([
-        'server.js'
+        'bin/server.js',
+		'--mode',
+		'dev'
     ]);
 });
 
