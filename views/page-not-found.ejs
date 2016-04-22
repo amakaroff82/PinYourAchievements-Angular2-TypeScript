@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+    <link rel="icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+
+    <title>Page <%= requestUrl %> not found</title>
+
+    <style>
+
+        body {
+            background: #f0f0f0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #313131;
+            font-size: 62.5%;
+            line-height: 1;
+        }
+
+        .alert {
+            border: 1px solid;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            padding: 5px;
+        }
+
+        .alert.alert-warning {
+            color: #c09853;
+            background-color: #fcf8e3;
+            border-color: #fbeed5;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .p-15 {
+            padding: 15px;
+        }
+
+        #view {
+            display: block;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="view">
+
+    <h1 class="text-center">
+        Page not found
+    </h1>
+
+    <div class="alert alert-warning text-center p-15">
+        <span>
+            Page <b><%= requestUrl %></b> not found on this server :(
+        </span>
+    </div>
+
+</div>
+
+</body>
+</html>

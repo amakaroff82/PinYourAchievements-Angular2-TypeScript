@@ -49,3 +49,8 @@ scripts/maps
 public/scripts/
 public/jspm_packages/
 *.log
+
+.idea/
+node_modules/
+app/bower_components/
+build/
