@@ -5,6 +5,7 @@ import {Inject} from 'angular2/di';
 import { _settings } from '../../settings';
 import {Home} from '../home/home';
 import {Add} from '../add/add';
+import {Login} from '../login/login';
 
 @Component({
   selector: 'my-app'
@@ -16,7 +17,8 @@ import {Add} from '../add/add';
 export class MyApp {
   constructor(@Inject(Router) router: Router) {
     router.config([
-      { path: '', as: 'home', component: Home },
+      { path: '/', as: 'home', component: Home },
+      { path: '/login', as: 'login', component: Login },
       { path: '/add', as: 'add', component: Add }
     ]);
   }
