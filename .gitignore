@@ -54,3 +54,4 @@ public/jspm_packages/
 node_modules/
 app/bower_components/
 build/
+orientdb-community/databases/
