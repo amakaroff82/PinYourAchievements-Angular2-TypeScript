@@ -1,9 +1,16 @@
 import {Component, View} from 'angular2/angular2';
 import { Inject} from 'angular2/di';
 import {Http} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
+import Observable = Rx.Observable;
 
 export class AchievementsService {
-	constructor( @Inject(Http) private http: Http) {		
+	public state: any;
+	private stateObservable:any;
+
+	constructor( @Inject(Http) private http: Http) {
+		this.state = new Observable(observer =>
+				this.stateObservable = observer);
 	}
 
 	getAchievementsOfType(type: string) : any {
@@ -20,4 +27,11 @@ export class AchievementsService {
 		var path = '/api/achievements';
 		return this.http.post(path, JSON.stringify(newAchievement));
 	}
+
+	hideShowHeader(state) {
+		this.stateObservable.next(state);
+		console.log(state);
+		//hide or show header
+	}
+
 }

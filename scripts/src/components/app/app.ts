@@ -6,6 +6,7 @@ import { _settings } from '../../settings';
 import {Home} from '../home/home';
 import {Add} from '../add/add';
 import {Login} from '../login/login';
+import {AchievementsService} from '../../services/achievementsService';
 
 @Component({
   selector: 'my-app'
@@ -15,11 +16,29 @@ import {Login} from '../login/login';
   directives: [RouterLink, RouterOutlet]
 })
 export class MyApp {
-  constructor(@Inject(Router) router: Router) {
+  isLogin:boolean = localStorage.getItem('isLogin') == "true" ? true :false;
+
+  constructor(@Inject(Router) router: Router,
+              @Inject(AchievementsService) private achievementsService: AchievementsService) {
+    this.router = router;
     router.config([
-      { path: '/', as: 'home', component: Home },
-      { path: '/login', as: 'login', component: Login },
+      { path: '/login', as: 'login', component: Login,},
+      { path: '/home', as: 'home', component: Home },
       { path: '/add', as: 'add', component: Add }
-    ]);
+    ]).then((_) => {
+      if(!localStorage.getItem('isLogin')) {
+        router.navigate('/login')
+      }else{
+        router.navigate('/home')
+      }
+    })
+
+    achievementsService.state.subscribe(newState => this.isLogin = newState)
+  }
+
+  logOut(){
+    this.achievementsService.hideShowHeader(false);
+    localStorage.removeItem('isLogin');
+     this.router.navigate('/login');
   }
 }

@@ -55,3 +55,4 @@ node_modules/
 app/bower_components/
 build/
 orientdb-community/databases/
+orientdb-community/log/

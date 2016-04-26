@@ -31,7 +31,7 @@ export class Add {
     this.achievementsService.addAnAchievement(this.addAchievementForm.value)
       .map(r => r.json())
       .subscribe(result => {
-        this.router.parent.navigate('/');
+        this.router.parent.navigate('/home');
       });
   }
 }
