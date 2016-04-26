@@ -1,20 +1,91 @@
-<h1>LOGIN</h1>
-<div class="form-horizontal">
-    <div class="form-group">
-        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-10">
-            <input type="email" class="form-control" #email id="inputEmail3" placeholder="Email">
+<style type="text/css">
+    .login-btn {
+        width: 100%;
+        background-color: #A4B3B4!important;
+        border-color: #A4B3B4!important;
+        font-size: 18px!important;
+        color: #476265!important;
+        height: 45px;
+    }
+    .login-page {
+        bottom: 20%;
+        position: absolute;
+        left: 35%;
+        right: 35%;
+    }
+    .login-inputs{
+        background-color: rgba(30, 127, 212, 0);
+        width: 100%;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 16px;
+        padding: 5px 0;
+    }
+    .input-placeholder{
+        font-weight: 600;
+        color: #70878A;
+        font-size: 12px;
+    }
+    .divider-top{
+        border-top: 1px solid;
+        color: #608588;
+    }
+    .input-blocks{
+        padding: 15px;
+    }
+    .sign-up{
+        font-size: 20px;
+        color: white;
+        float: right;
+        margin: 40px 40px 0 0;
+    }
+    .sign-up-button{
+        background-color: rgba(255, 255, 255, 0)!important;
+        border-color: #ccc!important;
+        border-width: 2px!important;
+        color: #D2C9C9!important;
+        margin-left: 5px;
+        height: 42px;
+        width: 100px;
+    }
+    .login-background{
+        background: linear-gradient(141deg, #233236 24%, #425B5E 51%, #658C8E 79%);
+        position: absolute;
+        height: 100%;
+        width: 100%;
+    }
+    .app-logo{
+        text-align: center;
+    }
+</style>
+
+<div class="login-background">
+    <div class="sign-up">Not a member?
+    <button type="button" class="btn btn-default sign-up-button">Sign Up</button>
+</div>
+<div class="login-page">
+    <div class="app-logo">
+        <img src="scripts/resources/logo.png" style="margin: 100px 0;">
+    </div>
+<div class="">
+    <div class="divider-top">
+        <div class="input-blocks">
+            <div class="input-placeholder">EMAIL ADDRESS</div>
+            <input type="email" class="login-inputs" #email>
         </div>
     </div>
-    <div class="form-group">
-        <label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
-        <div class="col-sm-10">
-            <input type="password" class="form-control" #pass id="inputPassword3" placeholder="Password">
+    <div class="divider-top">
+        <div class="input-blocks">
+            <div class="input-placeholder">PASSWORD</div>
+            <input type="password" class="login-inputs" #pass>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="button" class="btn btn-default" (click)="logIn(email.value, pass.value)" router-link="home" >Войти</button>
+    <div class="">
+        <div class="">
+            <button type="button" class="btn btn-default login-btn" (click)="logIn(email.value, pass.value)" >Login</button>
         </div>
     </div>
+</div>
+</div>
 </div>
