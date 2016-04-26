@@ -86,6 +86,8 @@ gulp.task(tasks.cleanAll, function () {
 	return runSequence(tasks.cleanSrc, tasks.cleanPublic);
 });
 
+gulp.src(['scripts/resources/*.*']).pipe(gulp.dest('scripts/build/resources'));
+
 //  clean all generated/compiled files 
 //	only in public/scripts/ directory
 gulp.task(tasks.cleanPublic, function () {
