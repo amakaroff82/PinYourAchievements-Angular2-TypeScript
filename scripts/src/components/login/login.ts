@@ -3,6 +3,7 @@ import { _settings } from '../../settings'
 import {Inject} from 'angular2/di';
 import {Router, RouteConfig, RouterLink, RouterOutlet} from 'angular2/router';
 import {AchievementsService} from '../../services/achievementsService';
+import {Api} from '../../services/api';
 
 @Component({
     selector: 'login'
@@ -14,7 +15,8 @@ import {AchievementsService} from '../../services/achievementsService';
 export class Login {
 
     constructor(@Inject(Router) private router: Router,
-                @Inject(AchievementsService) private achievementsService: AchievementsService) {
+                @Inject(AchievementsService) private achievementsService: AchievementsService,
+                @Inject(Api) private apiService: Api) {
     }
 
     goSignUp(){
@@ -22,11 +24,22 @@ export class Login {
     }
 
     logIn(email,pass){
+        var model = {
+            email: email,
+            password: pass
+        }
         if (this.isValidMail(email)) {
             if (this.isValidPass(pass)) {
-                this.achievementsService.hideShowHeader(true);
-                localStorage.setItem('isLogin', true);
-                this.router.parent.navigate('/home');
+                this.apiService.logIn(model)
+                    .map(r => r.json())
+                    .subscribe(result => {
+                        if (!result.message) {
+                            this.achievementsService.hideShowHeader(true);
+                            localStorage.setItem('isLogin', true);
+                            this.router.parent.navigate('/home')
+                        }
+                    });
+
             }else{
                 alert('Your password is incorrect')
             }

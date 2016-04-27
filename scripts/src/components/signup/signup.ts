@@ -3,6 +3,7 @@ import { _settings } from '../../settings'
 import {Inject} from 'angular2/di';
 import {Router, RouteConfig, RouterLink, RouterOutlet} from 'angular2/router';
 import {AchievementsService} from '../../services/achievementsService';
+import {Api} from '../../services/api';
 
 @Component({
     selector: 'signup'
@@ -13,63 +14,91 @@ import {AchievementsService} from '../../services/achievementsService';
 })
 export class SignUp {
 
-    constructor(@Inject(Router) private router: Router,
-                @Inject(AchievementsService) private achievementsService: AchievementsService) {
+    constructor(@Inject(Router) private router:Router,
+                @Inject(AchievementsService) private achievementsService:AchievementsService,
+                @Inject(Api) private apiService: Api) {
     }
 
-    backToLogin(){
+    backToLogin() {
         this.router.parent.navigate('/login');
     }
 
-    signUp(fname, lname, email, pass, confirmpass){
+    signUp(fname, lname, email, pass, confirmpass) {
+        var model = {
+            genericId: email,
+            name: fname +" "+ lname,
+            password: pass,
+            email: email
+        }
+        if (this.isValidData(fname,lname,email)) {
+            if (this.isValidPassword(pass,confirmpass)) {
+                this.apiService.signUp(model)
+                    .map(r => r.json())
+                    .subscribe(result => {
+                        if(result.userId){
+                            this.router.parent.navigate('/login');
+                        }
+                    });
+            }else{
+                alert('Your password is incorrect')
+            }
+        } else {
+            alert('Your data is incorrect')
+        }
 
     }
 
-    isValidMail(email){
+    isValidData(firstName,lastName,email) {
         var valid = true;
         var emailRegEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+        if (!firstName) {
+            valid = false;
+        }
+        if (!lastName) {
+            valid = false;
+        }
         if (!emailRegEx.test(email)) {
             valid = false;
         }
         return valid;
     }
 
-    isValidPass(password){
+    isValidPassword(password,confirmPassword) {
         var valid = true;
         var re;
         var i = 0;
-        if(password != "") {
-            if(password < 6 && password > 15) {
+        if (password != "") {
+            if (password < 6 && password > 15) {
                 valid = false;
             }
-            if(password.indexOf(' ') >= 0){
+            if (password.indexOf(' ') >= 0) {
                 valid = false;
             }
             re = /[a-z]/;
-            if(!re.test(password)) {
+            if (!re.test(password)) {
                 valid = false;
-            }else{
+            } else {
                 i++;
             }
             re = /[0-9]/;
-            if(!re.test(password)) {
+            if (!re.test(password)) {
                 valid = false;
-            }else{
+            } else {
                 i++;
             }
             re = /[A-Z]/;
-            if(!re.test(password)) {
+            if (!re.test(password)) {
                 valid = false;
-            }else{
+            } else {
                 i++;
             }
             re = /[$@$!%*?&#]/;
-            if(!re.test(password)) {
+            if (!re.test(password)) {
                 valid = false;
-            }else{
+            } else {
                 i++;
             }
-            if(i >= 2){
+            if (i >= 2) {
                 valid = true;
             }
         } else {
@@ -79,7 +108,9 @@ export class SignUp {
         if (!valid) {
             return false;
         }
-
+        if (password != confirmPassword) {
+            valid = false;
+        }
         return valid;
     }
 }
