@@ -29,7 +29,6 @@ export class Login {
             password: pass
         }
         if (this.isValidMail(email)) {
-            if (this.isValidPass(pass)) {
                 this.apiService.logIn(model)
                     .map(r => r.json())
                     .subscribe(result => {
@@ -37,12 +36,11 @@ export class Login {
                             this.achievementsService.hideShowHeader(true);
                             localStorage.setItem('isLogin', true);
                             this.router.parent.navigate('/home')
+                        }else{
+                            alert(result.message)
                         }
                     });
 
-            }else{
-                alert('Your password is incorrect')
-            }
         } else {
             alert('Your email is incorrect')
         }
@@ -53,55 +51,6 @@ export class Login {
         if (!emailRegEx.test(email)) {
             valid = false;
         }
-        return valid;
-    }
-
-    isValidPass(password){
-        var valid = true;
-        var re;
-        var i = 0;
-        if(password != "") {
-            if(password < 6 && password > 15) {
-                valid = false;
-            }
-            if(password.indexOf(' ') >= 0){
-                valid = false;
-            }
-            re = /[a-z]/;
-            if(!re.test(password)) {
-                valid = false;
-            }else{
-                i++;
-            }
-            re = /[0-9]/;
-            if(!re.test(password)) {
-                valid = false;
-            }else{
-                i++;
-            }
-            re = /[A-Z]/;
-            if(!re.test(password)) {
-                valid = false;
-            }else{
-                i++;
-            }
-            re = /[$@$!%*?&#]/;
-            if(!re.test(password)) {
-                valid = false;
-            }else{
-                i++;
-            }
-            if(i >= 2){
-                valid = true;
-            }
-        } else {
-            valid = false;
-            return valid;
-        }
-        if (!valid) {
-            return false;
-        }
-
         return valid;
     }
 }
