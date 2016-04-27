@@ -20,6 +20,10 @@
         return new ControllerUtils.RequestResolver();
     }
 
+    function response() {
+        return new ControllerUtils.ResponseResolver();
+    }
+
     function login(userId) {
 
         return Promise(function (resolve, reject) {
@@ -41,8 +45,8 @@
                 {
                     route: 'signIn',
                     method: 'post',
-                    params: [this.model()],
-                    handler: function (model) {
+                    params: [this.model(), request(), response()],
+                    handler: function (model, request, response) {
 
                         return Promise(function (resolve, reject) {
 
@@ -64,7 +68,15 @@
                                 if (user) {
                                     login(user.id)
                                         .then(function (authSession) {
-                                            resolve(authSession);
+
+                                            response.cookie("x-access-token", authSession.token, {
+                                                expires: new Date(authSession.expirationDate),
+                                                httpOnly: true
+                                            });
+
+                                            resolve({
+                                                userId: authSession.userId
+                                            });
                                         })
                                         .catch(function (e) {
                                             reject(e);
@@ -84,8 +96,8 @@
                 {
                     route: 'signUp',
                     method: 'post',
-                    params: [this.model()],
-                    handler: function (model) {
+                    params: [this.model(), request(), response()],
+                    handler: function (model, request, response) {
 
                         return Promise(function (resolve, reject) {
 
@@ -104,7 +116,15 @@
 
                                 login(userId)
                                     .then(function (authSession) {
-                                        resolve(authSession);
+
+                                        response.cookie("x-access-token", authSession.token, {
+                                            expires: new Date(authSession.expirationDate),
+                                            httpOnly: true
+                                        });
+
+                                        resolve({
+                                            userId: authSession.userId
+                                        });
                                     })
                                     .catch(function (e) {
                                         reject(e);
@@ -118,11 +138,11 @@
                 },
                 {
                     route: 'logout',
-                    params: [request()],
+                    params: [request(), response()],
                     filters: [
                         RequestFilter.checkAuthorization()
                     ],
-                    handler: function (request) {
+                    handler: function (request, response) {
 
                         var token = RequestUtils.getToken(request);
                         if (token) {
@@ -131,6 +151,7 @@
 
                                 AuthSessionProvider.removeAuthSessionByToken(token)
                                     .then(function () {
+                                        response.clearCookie("x-access-token");
                                         resolve();
                                     }, function (e) {
                                         reject(e);

@@ -8,7 +8,7 @@
     var authSessionProvider = require("./../providers/authSessionProvider");
 
     function getToken(request) {
-        return (request.headers || {})["x-access-token"];
+        return request.cookies["x-access-token"];
     }
 
     function getAuthSession(request, onBadToken, onInvalidToken) {
