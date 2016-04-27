@@ -33,9 +33,9 @@ export class Login {
                     .map(r => r.json())
                     .subscribe(result => {
                         if (!result.message) {
+                            localStorage.setItem('userId',result.userId);
                             this.achievementsService.hideShowHeader(true);
-                            localStorage.setItem('isLogin', true);
-                            this.router.parent.navigate('/home')
+                            this.router.parent.navigate('/home');
                         }else{
                             alert(result.message)
                         }

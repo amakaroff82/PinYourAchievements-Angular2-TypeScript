@@ -18,4 +18,9 @@ export class Api {
         var path = '/api/auth/signUp';
         return this.http.post(path, JSON.stringify(model));
     }
+
+    logout(){
+        var path = '/api/auth/logout';
+        return this.http.get(path);
+    }
 }

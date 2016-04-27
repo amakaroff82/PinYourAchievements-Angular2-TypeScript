@@ -36,7 +36,9 @@ export class SignUp {
                     .map(r => r.json())
                     .subscribe(result => {
                         if(result.userId){
-                            this.router.parent.navigate('/login');
+                            localStorage.setItem('userId',result.userId);
+                            this.achievementsService.hideShowHeader(true);
+                            this.router.parent.navigate('/home');
                         }
                     });
             }else{
