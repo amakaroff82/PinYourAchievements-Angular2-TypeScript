@@ -1,5 +1,19 @@
 CREATE database plocal:demo admin admin plocal graph
 
+CREATE CLASS Profile
+CREATE PROPERTY Profile.name STRING
+CREATE PROPERTY Profile.passwordHash STRING
+CREATE PROPERTY Profile.email STRING
+
+CREATE CLASS User
+CREATE PROPERTY User.genericId STRING
+CREATE PROPERTY User.profile LINK Profile
+
+CREATE CLASS AuthSession
+CREATE PROPERTY AuthSession.token STRING
+CREATE PROPERTY AuthSession.userId STRING
+CREATE PROPERTY AuthSession.expirationDate LONG
+
 CREATE CLASS Achievement
 CREATE PROPERTY Achievement.title STRING
 CREATE PROPERTY Achievement.type STRING
