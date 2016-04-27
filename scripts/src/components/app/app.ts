@@ -23,7 +23,6 @@ export class MyApp {
   constructor(@Inject(Router) router: Router,
               @Inject(AchievementsService) private achievementsService: AchievementsService,
               @Inject(Api) private apiService: Api) {
-    this.isLogin
     this.router = router;
     router.config([
       { path: '/login', as: 'login', component: Login,},
@@ -43,11 +42,14 @@ export class MyApp {
 
   logOut() {
     this.apiService.logout()
-        .map(r => r.json())
         .subscribe(result => {
-          localStorage.clear();
-          this.router.navigate('/login');
-          this.achievementsService.hideShowHeader(false);
+          if(result.status == 200) {
+            localStorage.clear();
+            this.router.navigate('/login');
+            this.achievementsService.hideShowHeader(false);
+          }else{
+            console.error(result.statusText)
+          }
         });
   }
 }
