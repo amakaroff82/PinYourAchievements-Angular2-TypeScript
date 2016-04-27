@@ -14,30 +14,18 @@ var settings_1 = require('../../settings');
 var di_1 = require('angular2/di');
 var router_1 = require('angular2/router');
 var achievementsService_1 = require('../../services/achievementsService');
-var Login = (function () {
-    function Login(router, achievementsService) {
+var SignUp = (function () {
+    function SignUp(router, achievementsService) {
         this.router = router;
         this.achievementsService = achievementsService;
     }
-    Login.prototype.goSignUp = function () {
-        this.router.parent.navigate('/signup');
+    SignUp.prototype.backToLogin = function () {
+        this.router.parent.navigate('/login');
     };
-    Login.prototype.logIn = function (email, pass) {
-        if (this.isValidMail(email)) {
-            if (this.isValidPass(pass)) {
-                this.achievementsService.hideShowHeader(true);
-                localStorage.setItem('isLogin', true);
-                this.router.parent.navigate('/home');
-            }
-            else {
-                alert('Your password is incorrect');
-            }
-        }
-        else {
-            alert('Your email is incorrect');
-        }
+    SignUp.prototype.signUp = function () {
+        alert('good');
     };
-    Login.prototype.isValidMail = function (email) {
+    SignUp.prototype.isValidMail = function (email) {
         var valid = true;
         var emailRegEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
         if (!emailRegEx.test(email)) {
@@ -45,7 +33,7 @@ var Login = (function () {
         }
         return valid;
     };
-    Login.prototype.isValidPass = function (password) {
+    SignUp.prototype.isValidPass = function (password) {
         var valid = true;
         var re;
         var i = 0;
@@ -97,18 +85,18 @@ var Login = (function () {
         }
         return valid;
     };
-    Login = __decorate([
+    SignUp = __decorate([
         angular2_1.Component({
-            selector: 'login'
+            selector: 'signup'
         }),
         angular2_1.View({
-            templateUrl: settings_1._settings.buildPath + "/components/login/login.html",
+            templateUrl: settings_1._settings.buildPath + "/components/signup/signup.html",
             directives: [angular2_1.NgFor]
         }),
         __param(0, di_1.Inject(router_1.Router)),
         __param(1, di_1.Inject(achievementsService_1.AchievementsService))
-    ], Login);
-    return Login;
+    ], SignUp);
+    return SignUp;
 })();
-exports.Login = Login;
-//# sourceMappingURL=login.js.map
+exports.SignUp = SignUp;
+//# sourceMappingURL=signup.js.map

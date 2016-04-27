@@ -5,35 +5,26 @@ import {Router, RouteConfig, RouterLink, RouterOutlet} from 'angular2/router';
 import {AchievementsService} from '../../services/achievementsService';
 
 @Component({
-    selector: 'login'
+    selector: 'signup'
 })
 @View({
-    templateUrl: _settings.buildPath + "/components/login/login.html",
+    templateUrl: _settings.buildPath + "/components/signup/signup.html",
     directives: [NgFor]
 })
-export class Login {
+export class SignUp {
 
     constructor(@Inject(Router) private router: Router,
                 @Inject(AchievementsService) private achievementsService: AchievementsService) {
     }
 
-    goSignUp(){
-        this.router.parent.navigate('/signup');
+    backToLogin(){
+        this.router.parent.navigate('/login');
     }
 
-    logIn(email,pass){
-        if (this.isValidMail(email)) {
-            if (this.isValidPass(pass)) {
-                this.achievementsService.hideShowHeader(true);
-                localStorage.setItem('isLogin', true);
-                this.router.parent.navigate('/home');
-            }else{
-                alert('Your password is incorrect')
-            }
-        } else {
-            alert('Your email is incorrect')
-        }
+    signUp(fname, lname, email, pass, confirmpass){
+
     }
+
     isValidMail(email){
         var valid = true;
         var emailRegEx = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;

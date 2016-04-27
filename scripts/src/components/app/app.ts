@@ -6,6 +6,7 @@ import { _settings } from '../../settings';
 import {Home} from '../home/home';
 import {Add} from '../add/add';
 import {Login} from '../login/login';
+import {SignUp} from '../signup/signup';
 import {AchievementsService} from '../../services/achievementsService';
 
 @Component({
@@ -24,7 +25,8 @@ export class MyApp {
     router.config([
       { path: '/login', as: 'login', component: Login,},
       { path: '/home', as: 'home', component: Home },
-      { path: '/add', as: 'add', component: Add }
+      { path: '/add', as: 'add', component: Add },
+      { path: '/signup', as: 'signup', component: SignUp }
     ]).then((_) => {
       if(!localStorage.getItem('isLogin')) {
         router.navigate('/login')

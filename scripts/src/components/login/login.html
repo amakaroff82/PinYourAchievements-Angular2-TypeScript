@@ -8,10 +8,8 @@
         height: 45px;
     }
     .login-page {
-        bottom: 20%;
-        position: absolute;
-        left: 35%;
-        right: 35%;
+        margin-left: 35%;
+        margin-right: 35%;
     }
     .login-inputs{
         background-color: rgba(30, 127, 212, 0);
@@ -57,16 +55,18 @@
     }
     .app-logo{
         text-align: center;
+        padding: 50px;
+        padding-top: 50%;
     }
 </style>
 
 <div class="login-background">
     <div class="sign-up">Not a member?
-    <button type="button" class="btn btn-default sign-up-button">Sign Up</button>
+    <button type="button" class="btn btn-default sign-up-button" (click)="goSignUp()">Sign Up</button>
 </div>
 <div class="login-page">
     <div class="app-logo">
-        <img src="scripts/resources/logo.png" style="margin: 100px 0; width: 100%;">
+        <img src="scripts/resources/logo.png" style="width: 100%;">
     </div>
 <div class="">
     <div class="divider-top">

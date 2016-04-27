@@ -16,6 +16,7 @@ var settings_1 = require('../../settings');
 var home_1 = require('../home/home');
 var add_1 = require('../add/add');
 var login_1 = require('../login/login');
+var signup_1 = require('../signup/signup');
 var achievementsService_1 = require('../../services/achievementsService');
 var MyApp = (function () {
     function MyApp(router, achievementsService) {
@@ -26,7 +27,8 @@ var MyApp = (function () {
         router.config([
             { path: '/login', as: 'login', component: login_1.Login, },
             { path: '/home', as: 'home', component: home_1.Home },
-            { path: '/add', as: 'add', component: add_1.Add }
+            { path: '/add', as: 'add', component: add_1.Add },
+            { path: '/signup', as: 'signup', component: signup_1.SignUp }
         ]).then(function (_) {
             if (!localStorage.getItem('isLogin')) {
                 router.navigate('/login');
