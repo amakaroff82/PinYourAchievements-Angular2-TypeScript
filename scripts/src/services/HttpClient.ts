@@ -37,7 +37,7 @@ export class HttpClient {
                 if (req.response) {
                     var response = JSON.parse(req.response)
                 }
-                if (req.status == 401) {
+                if (req.status == 401 || req.status == 400) {
                     Router.navigate('/login');
                 } else {
                     if (req.status == 200) {

@@ -30,11 +30,7 @@ export class MyApp {
       { path: '/add', as: 'add', component: Add },
       { path: '/signup', as: 'signup', component: SignUp }
     ]).then((_) => {
-      if(!localStorage.getItem('userId')) {
-        router.navigate('/login')
-      }else{
         router.navigate('/home')
-      }
     })
 
     achievementsService.state.subscribe(newState => this.isLogin = newState)
