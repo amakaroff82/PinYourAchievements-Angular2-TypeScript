@@ -14,9 +14,11 @@ import {Api} from '../../services/api';
 })
 export class Login {
 
-    constructor(@Inject(Router) private router: Router,
-                @Inject(AchievementsService) private achievementsService: AchievementsService,
-                @Inject(Api) private apiService: Api) {
+    constructor(@Inject(Router) private router:Router,
+                @Inject(AchievementsService) private achievementsService:AchievementsService,
+                @Inject(Api) private apiService:Api) {
+        this.achievementsService.hideShowHeader(false);
+        localStorage.clear();
     }
 
     goSignUp(){
@@ -30,8 +32,7 @@ export class Login {
         }
         if (this.isValidMail(email)) {
                 this.apiService.logIn(model)
-                    .map(r => r.json())
-                    .subscribe(result => {
+                    .then(result => {
                         if (!result.message) {
                             localStorage.setItem('userId',result.userId);
                             this.achievementsService.hideShowHeader(true);
@@ -39,7 +40,9 @@ export class Login {
                         }else{
                             alert(result.message)
                         }
-                    });
+                    }).catch((err)=>{
+                    console.error(err);
+                })
 
         } else {
             alert('Your email is incorrect')

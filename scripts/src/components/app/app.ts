@@ -41,15 +41,10 @@ export class MyApp {
   }
 
   logOut() {
-    this.apiService.logout()
-        .subscribe(result => {
-          if(result.status == 200) {
-            localStorage.clear();
-            this.router.navigate('/login');
-            this.achievementsService.hideShowHeader(false);
-          }else{
-            console.error(result.statusText)
-          }
-        });
+    this.apiService.logout().then(d=>{
+        this.router.navigate('/login');
+    }).catch((err)=>{
+      console.error(err);
+    })
   }
 }

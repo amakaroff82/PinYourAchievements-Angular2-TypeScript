@@ -18,11 +18,13 @@ var add_1 = require('../add/add');
 var login_1 = require('../login/login');
 var signup_1 = require('../signup/signup');
 var achievementsService_1 = require('../../services/achievementsService');
+var api_1 = require('../../services/api');
 var MyApp = (function () {
-    function MyApp(router, achievementsService) {
+    function MyApp(router, achievementsService, apiService) {
         var _this = this;
         this.achievementsService = achievementsService;
-        this.isLogin = localStorage.getItem('isLogin') == "true" ? true : false;
+        this.apiService = apiService;
+        this.isLogin = localStorage.getItem('userId') ? true : false;
         this.router = router;
         router.config([
             { path: '/login', as: 'login', component: login_1.Login, },
@@ -30,7 +32,7 @@ var MyApp = (function () {
             { path: '/add', as: 'add', component: add_1.Add },
             { path: '/signup', as: 'signup', component: signup_1.SignUp }
         ]).then(function (_) {
-            if (!localStorage.getItem('isLogin')) {
+            if (!localStorage.getItem('userId')) {
                 router.navigate('/login');
             }
             else {
@@ -40,9 +42,17 @@ var MyApp = (function () {
         achievementsService.state.subscribe(function (newState) { return _this.isLogin = newState; });
     }
     MyApp.prototype.logOut = function () {
-        this.achievementsService.hideShowHeader(false);
-        localStorage.removeItem('isLogin');
-        this.router.navigate('/login');
+        var _this = this;
+        this.apiService.logout().then(function (d) {
+            if (d.status == 200) {
+                localStorage.clear();
+                _this.router.navigate('/login');
+                _this.achievementsService.hideShowHeader(false);
+            }
+            else {
+                console.error(result.statusText);
+            }
+        });
     };
     MyApp = __decorate([
         angular2_1.Component({
@@ -53,7 +63,8 @@ var MyApp = (function () {
             directives: [router_1.RouterLink, router_1.RouterOutlet]
         }),
         __param(0, di_1.Inject(router_1.Router)),
-        __param(1, di_1.Inject(achievementsService_1.AchievementsService))
+        __param(1, di_1.Inject(achievementsService_1.AchievementsService)),
+        __param(2, di_1.Inject(api_1.Api))
     ], MyApp);
     return MyApp;
 })();

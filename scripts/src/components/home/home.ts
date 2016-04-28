@@ -15,10 +15,10 @@ export class Home {
   achievements: Array<any>;
 
   constructor(@Inject(AchievementsService) private achievementsService: AchievementsService) {
-    achievementsService.getAllAchievements()
-      .map(r => r.json())
-      .subscribe(a => {
-          this.achievements = a;
-      });
+    achievementsService.getAllAchievements().then((a)=>{
+      this.achievements = a;
+    }).catch((err)=>{
+      console.error(err);
+    })
   }
 }

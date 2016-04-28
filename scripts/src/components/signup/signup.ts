@@ -33,14 +33,15 @@ export class SignUp {
         if (this.isValidData(fname,lname,email)) {
             if (this.isValidPassword(pass,confirmpass)) {
                 this.apiService.signUp(model)
-                    .map(r => r.json())
-                    .subscribe(result => {
+                    .then(result => {
                         if(result.userId){
                             localStorage.setItem('userId',result.userId);
                             this.achievementsService.hideShowHeader(true);
                             this.router.parent.navigate('/home');
                         }
-                    });
+                    }).catch((err)=>{
+                    console.error(err);
+                })
             }else{
                 alert('Your password is incorrect')
             }

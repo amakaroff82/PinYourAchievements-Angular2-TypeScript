@@ -29,9 +29,10 @@ export class Add {
 
   addAchievement() {
     this.achievementsService.addAnAchievement(this.addAchievementForm.value)
-      .map(r => r.json())
-      .subscribe(result => {
+      .then(result => {
         this.router.parent.navigate('/home');
-      });
+      }).catch((err)=>{
+      console.error(err);
+    })
   }
 }

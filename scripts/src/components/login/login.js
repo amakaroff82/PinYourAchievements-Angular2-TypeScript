@@ -14,24 +14,35 @@ var settings_1 = require('../../settings');
 var di_1 = require('angular2/di');
 var router_1 = require('angular2/router');
 var achievementsService_1 = require('../../services/achievementsService');
+var api_1 = require('../../services/api');
 var Login = (function () {
-    function Login(router, achievementsService) {
+    function Login(router, achievementsService, apiService) {
         this.router = router;
         this.achievementsService = achievementsService;
+        this.apiService = apiService;
     }
     Login.prototype.goSignUp = function () {
         this.router.parent.navigate('/signup');
     };
     Login.prototype.logIn = function (email, pass) {
+        var _this = this;
+        var model = {
+            email: email,
+            password: pass
+        };
         if (this.isValidMail(email)) {
-            if (this.isValidPass(pass)) {
-                this.achievementsService.hideShowHeader(true);
-                localStorage.setItem('isLogin', true);
-                this.router.parent.navigate('/home');
-            }
-            else {
-                alert('Your password is incorrect');
-            }
+            this.apiService.logIn(model)
+                .map(function (r) { return r.json(); })
+                .subscribe(function (result) {
+                if (!result.message) {
+                    localStorage.setItem('userId', result.userId);
+                    _this.achievementsService.hideShowHeader(true);
+                    _this.router.parent.navigate('/home');
+                }
+                else {
+                    alert(result.message);
+                }
+            });
         }
         else {
             alert('Your email is incorrect');
@@ -45,58 +56,6 @@ var Login = (function () {
         }
         return valid;
     };
-    Login.prototype.isValidPass = function (password) {
-        var valid = true;
-        var re;
-        var i = 0;
-        if (password != "") {
-            if (password < 6 && password > 15) {
-                valid = false;
-            }
-            if (password.indexOf(' ') >= 0) {
-                valid = false;
-            }
-            re = /[a-z]/;
-            if (!re.test(password)) {
-                valid = false;
-            }
-            else {
-                i++;
-            }
-            re = /[0-9]/;
-            if (!re.test(password)) {
-                valid = false;
-            }
-            else {
-                i++;
-            }
-            re = /[A-Z]/;
-            if (!re.test(password)) {
-                valid = false;
-            }
-            else {
-                i++;
-            }
-            re = /[$@$!%*?&#]/;
-            if (!re.test(password)) {
-                valid = false;
-            }
-            else {
-                i++;
-            }
-            if (i >= 2) {
-                valid = true;
-            }
-        }
-        else {
-            valid = false;
-            return valid;
-        }
-        if (!valid) {
-            return false;
-        }
-        return valid;
-    };
     Login = __decorate([
         angular2_1.Component({
             selector: 'login'
@@ -106,7 +65,8 @@ var Login = (function () {
             directives: [angular2_1.NgFor]
         }),
         __param(0, di_1.Inject(router_1.Router)),
-        __param(1, di_1.Inject(achievementsService_1.AchievementsService))
+        __param(1, di_1.Inject(achievementsService_1.AchievementsService)),
+        __param(2, di_1.Inject(api_1.Api))
     ], Login);
     return Login;
 })();

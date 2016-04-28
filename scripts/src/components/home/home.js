@@ -15,12 +15,11 @@ var achievementsService_1 = require('../../services/achievementsService');
 var di_1 = require('angular2/di');
 var Home = (function () {
     function Home(achievementsService) {
-        var _this = this;
         this.achievementsService = achievementsService;
-        achievementsService.getAllAchievements()
-            .map(function (r) { return r.json(); })
-            .subscribe(function (a) {
-            _this.achievements = a;
+        achievementsService.getAllAchievements().then(function (a) {
+            debugger;
+        }).catch(function (err) {
+            debugger;
         });
     }
     Home = __decorate([

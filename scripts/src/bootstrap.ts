@@ -4,6 +4,7 @@ import {bootstrap} from 'angular2/angular2';
 import {routerInjectables} from 'angular2/router';
 import {AchievementsService} from './services/achievementsService'
 import {Api} from './services/api'
+import {HttpClient} from './services/HttpClient'
 import {httpInjectables} from 'angular2/http';
 import {formInjectables} from 'angular2/forms';
 
@@ -12,4 +13,4 @@ import {MyApp} from './components/app/app';
 // Second parameter provides a set of additional bindings 
 // that will be used by Component (in our case application)
 // read more here: https://angular.io/docs/js/latest/api/core/bootstrap-function.html
-bootstrap(MyApp, [routerInjectables, httpInjectables, formInjectables, AchievementsService, Api]);
+bootstrap(MyApp, [routerInjectables, httpInjectables, formInjectables, AchievementsService, Api, HttpClient]);

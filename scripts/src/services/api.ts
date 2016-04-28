@@ -1,12 +1,12 @@
 import {Component, View} from 'angular2/angular2';
 import { Inject} from 'angular2/di';
-import {Http} from 'angular2/http';
+import {HttpClient} from '../services/HttpClient';
 import {Observable} from 'rxjs/Observable';
 import Observable = Rx.Observable;
 
 export class Api {
 
-    constructor( @Inject(Http) private http: Http) {
+    constructor( @Inject(HttpClient) private http: HttpClient) {
     }
 
     logIn(model) {

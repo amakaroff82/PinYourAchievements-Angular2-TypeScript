@@ -10,7 +10,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var di_1 = require('angular2/di');
-var http_1 = require('angular2/http');
+var HttpClient_1 = require('../services/HttpClient');
 var Observable_1 = require('rxjs/Observable');
 var AchievementsService = (function () {
     function AchievementsService(http) {
@@ -37,7 +37,7 @@ var AchievementsService = (function () {
         console.log(state);
     };
     AchievementsService = __decorate([
-        __param(0, di_1.Inject(http_1.Http))
+        __param(0, di_1.Inject(HttpClient_1.HttpClient))
     ], AchievementsService);
     return AchievementsService;
 })();
