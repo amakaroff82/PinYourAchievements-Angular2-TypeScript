@@ -19,12 +19,12 @@ export class AchievementsService {
 	}
 
 	getAllAchievements() : any {
-		var path = '/api/achievements';
+		var path = '/api/users/'+localStorage.getItem('userId')+'/achievements';
 		return this.http.get(path);
 	}
 
 	addAnAchievement(newAchievement) {
-		var path = '/api/achievements';
+		var path = '/api/users/'+localStorage.getItem('userId')+'/achievements';
 		return this.http.post(path, JSON.stringify(newAchievement));
 	}
 

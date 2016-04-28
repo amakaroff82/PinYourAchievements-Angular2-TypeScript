@@ -44,14 +44,9 @@ var MyApp = (function () {
     MyApp.prototype.logOut = function () {
         var _this = this;
         this.apiService.logout().then(function (d) {
-            if (d.status == 200) {
-                localStorage.clear();
-                _this.router.navigate('/login');
-                _this.achievementsService.hideShowHeader(false);
-            }
-            else {
-                console.error(result.statusText);
-            }
+            _this.router.navigate('/login');
+        }).catch(function (err) {
+            console.error(err);
         });
     };
     MyApp = __decorate([

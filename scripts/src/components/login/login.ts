@@ -4,20 +4,22 @@ import {Inject} from 'angular2/di';
 import {Router, RouteConfig, RouterLink, RouterOutlet} from 'angular2/router';
 import {AchievementsService} from '../../services/achievementsService';
 import {Api} from '../../services/api';
+import {ObjectPreprocessor} from '../../services/ObjectPreprocessor';
 
 @Component({
     selector: 'login'
 })
 @View({
     templateUrl: _settings.buildPath + "/components/login/login.html",
-    directives: [NgFor]
 })
 export class Login {
 
     constructor(@Inject(Router) private router:Router,
                 @Inject(AchievementsService) private achievementsService:AchievementsService,
-                @Inject(Api) private apiService:Api) {
+                @Inject(Api) private apiService:Api,
+                @Inject(ObjectPreprocessor) private objectPreprocessor:ObjectPreprocessor) {
         this.achievementsService.hideShowHeader(false);
+        this.objectPreprocessor = objectPreprocessor;
         localStorage.clear();
     }
 
@@ -34,6 +36,13 @@ export class Login {
                 this.apiService.logIn(model)
                     .then(result => {
                         if (!result.message) {
+                            var Preprocessor = this.objectPreprocessor.getObjectPreprocessor();
+                            var result = new Preprocessor({
+                                userId: (userId) =>{
+                                    return this.objectPreprocessor.parseRId(userId);
+                                },
+                            }).resolve(result);
+
                             localStorage.setItem('userId',result.userId);
                             this.achievementsService.hideShowHeader(true);
                             this.router.parent.navigate('/home');

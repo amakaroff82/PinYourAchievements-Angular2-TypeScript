@@ -35,13 +35,14 @@ var SignUp = (function () {
         if (this.isValidData(fname, lname, email)) {
             if (this.isValidPassword(pass, confirmpass)) {
                 this.apiService.signUp(model)
-                    .map(function (r) { return r.json(); })
-                    .subscribe(function (result) {
+                    .then(function (result) {
                     if (result.userId) {
                         localStorage.setItem('userId', result.userId);
                         _this.achievementsService.hideShowHeader(true);
                         _this.router.parent.navigate('/home');
                     }
+                }).catch(function (err) {
+                    console.error(err);
                 });
             }
             else {

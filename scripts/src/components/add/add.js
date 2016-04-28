@@ -29,9 +29,10 @@ var Add = (function () {
     Add.prototype.addAchievement = function () {
         var _this = this;
         this.achievementsService.addAnAchievement(this.addAchievementForm.value)
-            .map(function (r) { return r.json(); })
-            .subscribe(function (result) {
+            .then(function (result) {
             _this.router.parent.navigate('/home');
+        }).catch(function (err) {
+            console.error(err);
         });
     };
     Add = __decorate([

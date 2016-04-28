@@ -25,7 +25,7 @@ var AchievementsService = (function () {
         return this.http.get(path);
     };
     AchievementsService.prototype.getAllAchievements = function () {
-        var path = '/api/achievements';
+        var path = '/api/users/' + 123 + '/achievements';
         return this.http.get(path);
     };
     AchievementsService.prototype.addAnAchievement = function (newAchievement) {

@@ -10,7 +10,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var di_1 = require('angular2/di');
-var HttpClient_1 = require('../services/HttpClient');
+var http_1 = require('angular2/http');
 var Api = (function () {
     function Api(http) {
         this.http = http;
@@ -28,7 +28,7 @@ var Api = (function () {
         return this.http.get(path);
     };
     Api = __decorate([
-        __param(0, di_1.Inject(HttpClient_1.HttpClient))
+        __param(0, di_1.Inject(http_1.HttpClient))
     ], Api);
     return Api;
 })();

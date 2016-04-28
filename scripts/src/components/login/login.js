@@ -15,11 +15,16 @@ var di_1 = require('angular2/di');
 var router_1 = require('angular2/router');
 var achievementsService_1 = require('../../services/achievementsService');
 var api_1 = require('../../services/api');
+var ObjectPreprocessor_1 = require('../../services/ObjectPreprocessor');
 var Login = (function () {
-    function Login(router, achievementsService, apiService) {
+    function Login(router, achievementsService, apiService, objectPreprocessor) {
         this.router = router;
         this.achievementsService = achievementsService;
         this.apiService = apiService;
+        this.objectPreprocessor = objectPreprocessor;
+        this.achievementsService.hideShowHeader(false);
+        this.objectPreprocessor = objectPreprocessor;
+        localStorage.clear();
     }
     Login.prototype.goSignUp = function () {
         this.router.parent.navigate('/signup');
@@ -32,9 +37,14 @@ var Login = (function () {
         };
         if (this.isValidMail(email)) {
             this.apiService.logIn(model)
-                .map(function (r) { return r.json(); })
-                .subscribe(function (result) {
+                .then(function (result) {
                 if (!result.message) {
+                    var Preprocessor = _this.objectPreprocessor.getObjectPreprocessor();
+                    var result = new Preprocessor({
+                        userId: function (userId) {
+                            return parseRId(id);
+                        },
+                    }).resolve(result);
                     localStorage.setItem('userId', result.userId);
                     _this.achievementsService.hideShowHeader(true);
                     _this.router.parent.navigate('/home');
@@ -42,6 +52,8 @@ var Login = (function () {
                 else {
                     alert(result.message);
                 }
+            }).catch(function (err) {
+                console.error(err);
             });
         }
         else {
@@ -62,11 +74,11 @@ var Login = (function () {
         }),
         angular2_1.View({
             templateUrl: settings_1._settings.buildPath + "/components/login/login.html",
-            directives: [angular2_1.NgFor]
         }),
         __param(0, di_1.Inject(router_1.Router)),
         __param(1, di_1.Inject(achievementsService_1.AchievementsService)),
-        __param(2, di_1.Inject(api_1.Api))
+        __param(2, di_1.Inject(api_1.Api)),
+        __param(3, di_1.Inject(ObjectPreprocessor_1.ObjectPreprocessor))
     ], Login);
     return Login;
 })();
